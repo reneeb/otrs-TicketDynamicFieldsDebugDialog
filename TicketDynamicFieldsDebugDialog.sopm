@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_package version="1.0">
+    <!-- GENERATED WITH OTRS::OPM::Maker::Command::sopm (1.33) -->
+    <Name>TicketDynamicFieldsDebugDialog</Name>
+    <Version>5.0.1</Version>
+    <Framework>5.0.x</Framework>
+    <Vendor>Perl-Services.de</Vendor>
+    <URL>http://www.perl-services.de</URL>
+    <Description Lang="de">Zeigt alle Werte Dynamischer Felder des Tickets in einem Dialog - ohne diese für diese Ansicht aktivieren zu müssen</Description>
+    <Description Lang="en">Show all DynamicField values of an ticket in one dialog - no need to enable the fields for this view</Description>
+    <License>GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007</License>
+    <Filelist>
+        <File Permission="644" Location="Custom/Kernel/Modules/AgentTicketDynamicFieldsDebugDialog.pm" />
+        <File Permission="644" Location="Custom/Kernel/Output/HTML/Templates/Standard/AgentTicketDynamicFieldsDebugDialog.tt" />
+        <File Permission="644" Location="Kernel/Config/Files/TicketDynamicFieldsDebugDialog.xml" />
+        <File Permission="644" Location="doc/TicketDynamicFieldsDebugDialog.json" />
+    </Filelist>
+</otrs_package>
