@@ -63,6 +63,11 @@ sub Run {
         ObjectType => 'Ticket',
     );
 
+    $LayoutObject->Block(
+        Name => 'Type',
+        Data => { Type => 'Ticket' },
+    );
+
     # set dynamic fields for Ticket object type
     DYNAMICFIELDID:
     for my $DynamicFieldID ( sort keys %{$DynamicFieldList} ) {
@@ -71,7 +76,63 @@ sub Run {
 
         my $Key = $DynamicFieldList->{$DynamicFieldID};
 
-        if ( $Ticket{"DynamicField_$Key"} ) {
+        # get dynamic field config
+        my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
+            ID => $DynamicFieldID,
+        );
+
+        my $Data = $BackendObject->DisplayValueRender(
+            DynamicFieldConfig => $DynamicFieldGet,
+            HTMLOutput         => 1,
+            LayoutObject       => $LayoutObject,
+            Value              => $Ticket{"DynamicField_$Key"},
+        );
+
+        $Data->{Name}  = $Key;
+        $Data->{Label} = $DynamicFieldGet->{Label};
+
+        $LayoutObject->Block(
+            Name => "DynamicField",
+            Data => $Data,
+        );
+    }
+
+    my @ArticleIndex = $TicketObject->ArticleIndex(
+        TicketID => $TicketID,
+    );
+
+    my $ArticleDynamicFieldList = $DynamicFieldObject->DynamicFieldList(
+        Valid      => 1,
+        ResultType => 'HASH',
+        ObjectType => 'Article',
+    );
+
+    my $Counter = 0;
+    for my $ArticleID ( @ArticleIndex ) {
+
+        last if !%{$ArticleDynamicFieldList};
+
+        my %Article = $TicketObject->ArticleGet(
+            ArticleID     => $ArticleID,
+            UserID        => 1,
+            DynamicFields => 1,
+        );
+
+        $LayoutObject->Block(
+            Name => 'Type',
+            Data => {
+                Type    => 'Article',
+                Subtype => '#' . ++$Counter,
+            },
+        );
+
+        # set dynamic fields for Ticket object type
+        DYNAMICFIELDID:
+        for my $DynamicFieldID ( sort keys %{$ArticleDynamicFieldList} ) {
+            next DYNAMICFIELDID if !$DynamicFieldID;
+            next DYNAMICFIELDID if !$ArticleDynamicFieldList->{$DynamicFieldID};
+
+            my $Key = $ArticleDynamicFieldList->{$DynamicFieldID};
 
             # get dynamic field config
             my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet(
@@ -82,7 +143,7 @@ sub Run {
                 DynamicFieldConfig => $DynamicFieldGet,
                 HTMLOutput         => 1,
                 LayoutObject       => $LayoutObject,
-                Value              => $Ticket{"DynamicField_$Key"},
+                Value              => $Article{"DynamicField_$Key"},
             );
 
             $Data->{Name}  = $Key;
