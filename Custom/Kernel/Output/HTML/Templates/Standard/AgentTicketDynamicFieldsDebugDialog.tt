@@ -1,0 +1,44 @@
+# --
+# Copyright (C) 2016 Perl-Services.de, http://perl-services.de
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<div class="LayoutPopup ARIARoleMain">
+    <div class="Header">
+        <h1>
+            [% Translate("Dynamic Field Values") | html %]
+            : [% Data.TicketNumber %] - [% Data.Title | truncate(60) | html %]
+        </h1>
+        <p>
+            <a class="CancelClosePopup" href="#">[% Translate("Cancel & close window") | html %]</a>
+        </p>
+    </div>
+    <div class="Content">
+
+        <fieldset class="TableLike FixedLabel">
+[% RenderBlockStart("DynamicField") %]
+            <div class="Row Row_DynamicField_[% Data.Name | html %]">
+                <label>[% Translate( Data.Label ) | html %] ([% Data.Name | html %]):</label>
+                <div class="Field">
+                    [% Data.Value %]
+                </div>
+                <div class="Clear"></div>
+            </div>
+[% RenderBlockEnd("DynamicField") %]
+
+        </fieldset>
+    </div>
+    <div class="Footer">
+        <button class="Primary CancelClosePopup" accesskey="g" title="[% Translate("Close") | html %] (g)" value="[% Translate("Close") | html %]">[% Translate("CLose") | html %]</button>
+    </div>
+</div>
+
+#Layers
+[% WRAPPER JSOnDocumentComplete %]
+<script type="text/javascript">//<![CDATA[
+    Core.Agent.TicketAction.Init();
+//]]></script>
+[% END %]

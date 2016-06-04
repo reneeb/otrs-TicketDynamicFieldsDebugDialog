@@ -1,0 +1,16 @@
+{
+    "name": "TicketDynamicFieldsDebugDialog",
+    "version": "5.0.1",
+    "framework": [
+        "5.0.x"
+    ],
+    "vendor": {
+        "name":  "Perl-Services.de",
+        "url": "http://www.perl-services.de"
+    },
+    "license": "GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007",
+    "description" : {
+        "en": "Show all DynamicField values of an ticket in one dialog - no need to enable the fields for this view",
+        "de": "Zeigt alle Werte Dynamischer Felder des Tickets in einem Dialog - ohne diese für diese Ansicht aktivieren zu müssen"
+    }
+}
