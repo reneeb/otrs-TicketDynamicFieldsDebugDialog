@@ -17,6 +17,7 @@ our @ObjectDependencies = qw(
     Kernel::Config
     Kernel::Output::HTML::Layout
     Kernel::System::Ticket
+    Kernel::System::Ticket::Article
     Kernel::System::Web::Request
     Kernel::System::DynamicField
     Kernel::System::DynamicField::Backend
@@ -38,6 +39,7 @@ sub Run {
     my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
     my $ParamObject        = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
+    my $ArticleObject      = $Kernel::OM->Get('Kernel::System::Ticket::Article');
     my $LayoutObject       = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -97,7 +99,7 @@ sub Run {
         );
     }
 
-    my @ArticleIndex = $TicketObject->ArticleIndex(
+    my @ArticleIndex = $ArticleObject->ArticleList(
         TicketID => $TicketID,
     );
 
@@ -112,7 +114,7 @@ sub Run {
 
         last if !%{$ArticleDynamicFieldList};
 
-        my %Article = $TicketObject->ArticleGet(
+        my %Article = $ArticleObject->ArticleGet(
             ArticleID     => $ArticleID,
             UserID        => 1,
             DynamicFields => 1,
